@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
-  //TODO: check whether this one is done?
+  //TODO: check whether this one is done? OK to use async here?
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -68,6 +68,7 @@ router.post("/", async (req, res) => {
     });
 });
 
+//TODO: check whether this one is done?
 // update product
 router.put("/:id", (req, res) => {
   // update product data
@@ -113,9 +114,9 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", async (req, res) => {
   // delete one product by its `id` value
   try {
-    const deletedProduct = Product.destroy({
+    const deletedProduct = await Product.destroy({
       where: {
-        product_id: req.params.product_id,
+        id: req.params.id,
       },
     });
     res.json(deletedProduct);

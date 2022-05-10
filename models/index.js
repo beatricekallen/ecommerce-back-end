@@ -16,18 +16,12 @@ Category.hasMany(Product, {
 
 // Products belongToMany Tags (through ProductTag)
 Product.belongsToMany(Tag, {
-  through: ProductTag,
-  //TODO: check this is correct
-  as: "product_tag",
-  foreignKey: "tag_id",
+  through: { model: ProductTag, unique: false },
 });
 
 // Tags belongToMany Products (through ProductTag)
 Tag.belongsToMany(Product, {
-  through: ProductTag,
-  //TODO: check this is correct
-  as: "product_tag",
-  foreignKey: "product_id",
+  through: { model: ProductTag, unique: false },
 });
 
 module.exports = {
