@@ -36,7 +36,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // create new product
-router.post("/", async (req, res) => {
+router.post("/", (req, res) => {
   /* req.body should look like this...
     {
       product_name: "Basketball",
@@ -45,7 +45,6 @@ router.post("/", async (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
-  //TODO: check whether this one is done? OK to use async here?
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -68,15 +67,21 @@ router.post("/", async (req, res) => {
     });
 });
 
-//TODO: check whether this one is done?
+//TODO: fix this one
 // update product
 router.put("/:id", (req, res) => {
   // update product data
-  Product.update(req.body, {
-    where: {
-      id: req.params.id,
+  Product.update(
+    req.body,
+    {
+      product_name: req.body.product_name,
     },
-  })
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  )
     .then((product) => {
       // find all associated tags from ProductTag
       return ProductTag.findAll({ where: { product_id: req.params.id } });
